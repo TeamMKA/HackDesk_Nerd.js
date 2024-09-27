@@ -1,4 +1,7 @@
+import Button from "../components/Button";
+import Features from "../components/Features";
 import Map from "../components/Map";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Home = () => {
   return (
@@ -28,14 +31,23 @@ const Home = () => {
         </div>
 
         <div className=" flex flex-center w-full mt-[5rem] ">
-          <button className=" py-2 px-7 bg-orange-500 rounded-full">
-            <a href="#Main">Get started</a>
-          </button>
+          <a href="#Main">
+            <Button text={"Get Started"} />
+          </a>
         </div>
       </section>
 
       <section id="Main" className="h-[100vh] w-full mt-[10rem]">
         <Map />
+        <button className="flex w-full justify-center items-center">
+          <a href="#main_2">
+            <IoIosArrowDown size={50} className="translate-y-[-5rem] " />
+          </a>
+        </button>
+      </section>
+
+      <section id="main_2" className="h-[100vh] w-full mt-[10rem]">
+        <Features />
       </section>
     </>
   );
