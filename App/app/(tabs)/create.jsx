@@ -62,22 +62,32 @@ const CreateIncident = ({ onSubmit }) => {
     getCurrentLocation();
   }, []);
 
+  // const pickPhotos = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsMultipleSelection: true,
+  //   });
+  //   if (!result.canceled) {
+  //     setPhotoFiles([...photoFiles, result.uri]);
+  //   }
+  // };
   const pickPhotos = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsMultipleSelection: true,
     });
     if (!result.canceled) {
-      setPhotoFiles([...photoFiles, result.uri]);
+      setPhotoFiles([...photoFiles, ...result.assets.map(asset => asset.uri)]);
     }
   };
 
   const pickVideos = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      allowsMultipleSelection: true,
     });
     if (!result.canceled) {
-      setVideoFiles([...videoFiles, result.uri]);
+      setVideoFiles([...videoFiles, ...result.assets.map(asset => asset.uri)]);
     }
   };
 
