@@ -1,7 +1,7 @@
 {
-  "name": "node_template",
+  "name": "hackathon_app",
   "version": "1.0.0",
-  "description": "Template to develop node express backend",
+  "description": "Map app",
   "main": "index.js",
   "type": "module",
   "scripts": {
