@@ -13,15 +13,15 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true, // Adjust as needed
   },
-  img: {
+  imageFiles: {
+    type: [String],
+    default: "", // Default to an empty string
+  },
+  videoFile: {
     type: String,
     default: "", // Default to an empty string
   },
-  video: {
-    type: String,
-    default: "", // Default to an empty string
-  },
-  audio: {
+  audioFile: {
     type: String,
     default: "", // Default to an empty string
   },
@@ -37,4 +37,4 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model('Post', postSchema);
 
-module.exports = Post;
+export default Post

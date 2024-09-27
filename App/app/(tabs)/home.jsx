@@ -1,53 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, ScrollView, Image } from "react-native";
 import PostCard from "../../components/PostCard"; // Import PostCard component
 import {icons, images} from "./../../constants"
 import HomePageCard from "../../components/HomePageCard";
+import axios from "axios";
 
 
 const Home = () => {
   const cardData = [
-    { title: "Safest Route", img: icons.safest_route },
-    { title: "Disability", img: icons.play },
-    { title: "Report Incident", img: icons.report_incident },
-    { title: "Safety Alerts", img: icons.safety_alerts },
-    { title: "Find Nearby", img: icons.find_nearby },
-    { title: "Emergency Contacts", img: icons.emergency_contacts },
+    { title: "Safest Route", img: icons.safest_route, link: "/safest-route" },
+    { title: "Disability", img: icons.play, link: "/disability" },
+    { title: "Report Incident", img: icons.report_incident, link: "/report-incident" },
+    { title: "Safety Alerts", img: icons.safety_alerts, link: "/safety-alerts" },
+    { title: "Find Nearby", img: icons.find_nearby, link: "/find-nearby" },
+    { title: "Emergency Contacts", img: icons.emergency_contacts, link: "/emergency-contacts" },
   ];
 
-  const postData = [
-    {
-        type: "Accident",
-        location: "Malad, Mumbai",
-        description: "Two cars collided at the junction. No casualties, but heavy traffic.",
-        img: "https://via.placeholder.com/150", // Image URL
-        audio: null, // No audio for this incident
-        video: null, // No video for this incident
-        comments: ['This is so sad', 'Hope everyone is safe'], // Ensure comments is defined
-        like: 10,
-    },
-    {
-        type: "Suspicious Activity",
-        location: "Goregaon, Mumbai",
-        description: "Suspicious individual seen lurking near parked vehicles. Reported to local authorities.",
-        img: null, // No image for this incident
-        audio: null, // No audio for this incident
-        video: "https://www.w3schools.com/html/mov_bbb.mp4", // Video URL
-        comments: [], // Initialize as an empty array
-        like: 5,
-    },
-    {
-        type: "Robbery",
-        location: "Andheri, Mumbai",
-        description: "A purse snatching incident happened last night at Andheri West. Be cautious!",
-        img: null, // No image for this incident
-        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Audio URL
-        video: null, // No video for this incident
-        comments: [], // Initialize as an empty array
-        like: 2,
-    }
-];
+  const [postData, setPostData] = useState([]);
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get('https://6nddmv2g-8000.inc1.devtunnels.ms/api/posts/get-post');
+        console.log('Post data fetched:', response.data);
+        setPostData(response.data); // Update the state with the fetched data
+      } catch (error) {
+        console.error("Error during fetching posts:", error.response ? error.response.data : error.message);
+      }
+    };
+    
+    getData();
+  }, []);
   
 
   return (
@@ -61,7 +44,7 @@ const Home = () => {
           <Image source={images.profile} className="rounded-full h-16 w-16" />
         </View>
 
-        <View className="bg-blue-400 rounded-md mx-4 mt-12 p-4">
+        <View className="bg-orange-400 rounded-md mx-4 mt-12 p-4">
           <View className="flex-row justify-around items-center">
             <Image source={icons.location_marker} className="h-16 w-16 rounded-full" />
             <Text className="text-white font-psemibold text-xl">Your Location</Text>
