@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
 import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
 import Features from "../components/Features";
 import Map from "../components/Map";
 import { IoIosArrowDown } from "react-icons/io";
 
+
 const Home = () => {
+
   return (
     <>
       <section className=" mt-5 ">

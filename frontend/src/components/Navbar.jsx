@@ -2,8 +2,8 @@
 const Navbar = () => {
   return (
     <nav className="w-full h-[7rem] my-15 flex items-center flex-between  " >
-      <div className=" flex items-center justify-center " >
-        <img  className="object-contain" height={100} width={100} src="/logo.png" alt="" />
+      <div className=" flex items-center justify-center pt-7 " >
+        <img  className="object-cover " height={100} width={160} src="/logo.png" alt="" />
       </div>
 
       <div>
