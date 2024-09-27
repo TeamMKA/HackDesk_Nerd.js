@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import SignInPage from "./pages/SignInPage";
+import DashBoard from "./pages/DashBoard";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signIn" element={<SignInPage />} />
+          <Route path="/dashboard" element={<DashBoard />} />
         </Routes>
       </main>
 

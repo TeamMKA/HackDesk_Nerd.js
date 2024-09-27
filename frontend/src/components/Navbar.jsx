@@ -22,6 +22,9 @@ const Navbar = () => {
           <li>
             <a href="#faq" className="text-lg font-semibold text-gray-800">FAQ&apos;s</a>
           </li>
+          <li>
+            <a href="/dashboard" className="text-lg font-semibold text-gray-800">DashBoard</a>
+          </li>
         </ul>
       </div>
 
