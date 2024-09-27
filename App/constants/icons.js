@@ -11,6 +11,13 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
+import location_marker from "../assets/icons/location-marker.png";
+import safest_route from "../assets/icons/safest-route.png";
+import report_incident from "../assets/icons/report-incident.jpg";
+import safety_alerts from "../assets/icons/safety_alerts.png";
+import find_nearby from "../assets/icons/find_nearby.png";
+import emergency_contacts from "../assets/icons/emergency_contacts.png";
+
 
 export default {
   play,
@@ -26,4 +33,10 @@ export default {
   logout,
   eyeHide,
   eye,
+  location_marker,
+  safest_route,
+  report_incident,
+  safety_alerts, 
+  find_nearby,
+  emergency_contacts,
 };

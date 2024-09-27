@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 
-// import GlobalProvider from "../context/GlobalProvider";
+import GlobalProvider from "../context/GlobalProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -37,14 +37,14 @@ const RootLayout = () => {
   }
 
   return (
-    // <GlobalProvider>
+    <GlobalProvider>
       <Stack>
          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} /> 
         <Stack.Screen name="index" options={{ headerShown: false }} />
         {/* <Stack.Screen name="search/[query]" options={{ headerShown: false }} /> */}
       </Stack>
-    // </GlobalProvider>
+     </GlobalProvider>
   );
 };
 

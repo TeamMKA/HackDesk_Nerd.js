@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 
+import postRouter from "./routes/post.routes.js"
 const app = express()
 
 app.use(cors({ origin: process.env.CORS_ORIGIN }))
@@ -14,5 +15,5 @@ app.use(cookieParser())
 import userRouter from "./routes/user.routes.js"
 
 app.use("/api/users", userRouter)
-
+app.use("/api/posts", postRouter)
 export { app }
