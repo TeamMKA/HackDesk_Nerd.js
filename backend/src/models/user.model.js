@@ -19,14 +19,9 @@ const userSchema = new Schema(
             trim: true,
             lowercase: true,
         },
-        fullname: {
-            type: String,
-            required: true,
-            trim: true,
-        },
         profilepic: {
             type: String, //cloudinary
-            required: true,
+            // required: true,
         },
         password: {
             type: String,

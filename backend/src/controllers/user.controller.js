@@ -21,9 +21,9 @@ const generateAccessandRefreshToken = async (userId) => {
 }
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { username, email, fullname, password, role } = req.body
+    const { username, email, password, role } = req.body
     if (
-        [username, email, fullname, password].some(
+        [username, email, password].some(
             (field) => field?.trim === ""
         )
     ) {
@@ -34,19 +34,18 @@ const registerUser = asyncHandler(async (req, res) => {
     if (existedUser) {
         throw new ApiError(409, "User with email or username already Exists")
     }
-    const profilePicLocalPath = req.file?.path
-    if (!profilePicLocalPath) {
-        throw new ApiError(400, "ProfilePic is Required local")
-    }
-    const profilepic = await uploadOnCloudinary(profilePicLocalPath)
+    // const profilePicLocalPath = req.file?.path
+    // if (!profilePicLocalPath) {
+    //     throw new ApiError(400, "ProfilePic is Required local")
+    // }
+    // const profilepic = await uploadOnCloudinary(profilePicLocalPath)
 
-    if (!profilepic) {
-        throw new ApiError(400, "ProfilePic is Required")
-    }
+    // if (!profilepic) {
+    //     throw new ApiError(400, "ProfilePic is Required")
+    // }
 
     const user = await User.create({
-        fullname,
-        profilepic: profilepic.url,
+        // profilepic: profilepic.url,
         email,
         password,
         role,
@@ -69,12 +68,12 @@ const registerUser = asyncHandler(async (req, res) => {
 })
 
 const loginUser = asyncHandler(async (req, res) => {
-    const { username, password } = req.body
+    const { email, password } = req.body
 
-    if (!username) {
+    if (!email|| !password) {
         throw new ApiError(400, "Username or Password Not Entered")
     }
-    const user = await User.findOne({ username: username })
+    const user = await User.findOne({ email: email })
     if (!user) {
         throw new ApiError(404, "User Doesnt Exist")
     }
