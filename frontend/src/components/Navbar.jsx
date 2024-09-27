@@ -12,13 +12,13 @@ const Navbar = () => {
             <a href="/" className="text-lg font-semibold text-gray-800">Home</a>
           </li>
           <li>
-            <a href="/" className="text-lg font-semibold text-gray-800">About</a>
+            <a href="#Main" className="text-lg font-semibold text-gray-800">About</a>
           </li>
           <li>
-            <a href="/" className="text-lg font-semibold text-gray-800">Services</a>
+            <a href="#main_2" className="text-lg font-semibold text-gray-800">Services</a>
           </li>
           <li>
-            <a href="/" className="text-lg font-semibold text-gray-800">Contact</a>
+            <a href="#faq" className="text-lg font-semibold text-gray-800">FAQ&apos;s</a>
           </li>
         </ul>
       </div>

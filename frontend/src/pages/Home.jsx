@@ -1,4 +1,5 @@
 import Button from "../components/Button";
+import FaqSection from "../components/FaqSection";
 import Features from "../components/Features";
 import Map from "../components/Map";
 import { IoIosArrowDown } from "react-icons/io";
@@ -32,7 +33,7 @@ const Home = () => {
 
         <div className=" flex flex-center w-full mt-[5rem] ">
           <a href="#Main">
-            <Button text={"Get Started"} />
+            <Button text={"Next Section"} />
           </a>
         </div>
       </section>
@@ -49,6 +50,15 @@ const Home = () => {
       <section id="main_2" className="h-[100vh] w-full mt-[10rem]">
         <Features />
       </section>
+
+      <div className="py-20 mt-[8rem] h-[50vh] flex flex-col justify-center items-center " >
+      <Button text={"Join our Community"} />
+      </div>
+
+    <section id="faq" className="h-[100vh] w-full mt-[5rem]" >
+      <FaqSection />
+    </section>
+
     </>
   );
 };
