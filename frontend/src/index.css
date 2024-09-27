@@ -111,4 +111,12 @@
   .desc {
     @apply mt-5 text-lg text-gray-600 sm:text-xl max-w-2xl;
   }
+
+  .orange_gradient {
+    @apply bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent;
+  }
+
+  .animtext{
+    @apply opacity-0 translate-y-[100px]
+  }
 }
