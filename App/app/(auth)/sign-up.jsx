@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import { router } from 'expo-router';
 import { images } from '../../constants';
 import axios from 'axios';
+import { useGlobalContext } from '../../context/GlobalProvider';
+
 
 const SignUp = () => {
+  const {setIsLogged,setUser,loading,setLoading} = useGlobalContext();
+
   const [form, setForm] = useState({
     username: '',
     email: '',
@@ -25,10 +29,16 @@ const SignUp = () => {
             email,
             password
         });
-        console.log(response.data); // Log the response data
+        if(response.data){
+          setIsLogged(true);
+          setUser(response.data);
+          router.push('/home');
+        }
     } catch (error) {
         console.error("Error during registration:", error.response ? error.response.data : error.message);
         // You can also show an alert or a notification for the user
+    }finally{
+      setLoading(false);
     }
 };
 

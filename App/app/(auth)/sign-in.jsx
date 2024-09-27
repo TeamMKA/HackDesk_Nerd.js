@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import { router } from 'expo-router';
 import { images } from '../../constants';
 import axios from 'axios';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 const SignIn = () => {
+  const {setIsLogged,setUser,loading,setLoading} = useGlobalContext();
+
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -15,6 +18,7 @@ const SignIn = () => {
   };
 
   const submit = async () => {
+    setLoading(true);
     const { email, password } = form;
 
     try {
@@ -24,10 +28,18 @@ const SignIn = () => {
         email,
         password
       });
-      console.log(response.data);
+      if(response.data){
+        setIsLogged(true);
+        setUser(response.data);
+        router.push('/home');
+      }
+      
     } catch (error) {
       console.error("Error during login:", error.response ? error.response.data : error.message);
       Alert.alert("Error", error.response ? error.response.data : "An unexpected error occurred.");
+    }
+    finally{
+      setLoading(false);
     }
   };
 
