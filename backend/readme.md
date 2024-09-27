@@ -1,1 +1,1 @@
-# Template for Node.js backend
+# Backend
