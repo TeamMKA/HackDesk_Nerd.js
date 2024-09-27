@@ -55,7 +55,9 @@ const Home = () => {
       </section>
 
       <div className="py-20 mt-[8rem] h-[50vh] flex flex-col justify-center items-center " >
+      <a href="/signIn">
       <Button text={"Join our Community"} />
+      </a>
       </div>
 
     <section id="faq" className="h-[100vh] w-full mt-[5rem]" >

@@ -1,5 +1,7 @@
 
 const Navbar = () => {
+
+
   return (
     <nav className="w-full h-[7rem] my-15 flex items-center flex-between  " >
       <div className=" flex items-center justify-center pt-7 " >
@@ -25,7 +27,10 @@ const Navbar = () => {
 
       <div className="black_btn" >
         <button className="" >
+          <a href="/signIn">
           LogIn
+          </a>
+
         </button>
       </div>
     </nav>
