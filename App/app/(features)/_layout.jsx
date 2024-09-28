@@ -1,6 +1,4 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import SafestRoute from "./safest-route";
 import { Stack } from "expo-router";
 
 
@@ -26,6 +24,7 @@ const AppNavigator = () => {
             headerShown: false,
           }}
         />
+        
       </Stack>
     </>
   );

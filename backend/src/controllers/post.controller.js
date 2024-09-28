@@ -10,11 +10,13 @@ export const getPost = async (req, res) => {
 }
 
 export const sendPost = async (req, res) => {
+  // console.log('Request body:', req.body);
   const post = req.body
-  const newPost = new Post(post)
+  // const newPost = new Post(post)
   try {
-    await newPost.save()
-    res.status(201).json(newPost)
+    // await newPost.save()
+    // res.status(201).json(newPost)
+    res.send('Post received')
   } catch (error) {
     res.status(409).json({ message: error.message })
   }

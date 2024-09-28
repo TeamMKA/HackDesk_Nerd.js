@@ -4,8 +4,13 @@ import PostCard from "../../components/PostCard"; // Import PostCard component
 import { icons, images } from "./../../constants";
 import HomePageCard from "../../components/HomePageCard";
 import axios from "axios";
+import { TouchableOpacity } from "react-native";
+import { router } from "expo-router";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Home = () => {
+  const {user} = useGlobalContext()
+
   const cardData = [
     { title: "Safest Route", img: icons.safest_route, link: "/safest-route" },
     { title: "Book A Ride", img: icons.book_a_ride, link: "/book-a-ride" },
@@ -13,6 +18,7 @@ const Home = () => {
     { title: "Safety Alerts", img: icons.safety_alerts, link: "/safety-alerts" },
     { title: "Find Nearby", img: icons.find_nearby, link: "/find-nearby" },
     { title: "S. O. S.", img: icons.emergency_contacts, link: "/emergency-contacts" },
+    { title: "Educational Resources", img: icons.emergency_contacts, link: "/emergency-contacts" },
   ];
 
   const [postData, setPostData] = useState([]);
@@ -49,9 +55,11 @@ const Home = () => {
         <View className="mt-10 flex-row justify-between mx-3">
           <View>
             <Text className="text-xl text-gray-500">Hello, </Text>
-            <Text className="text-2xl font-extrabold">Hi Raj</Text>
+            <Text className="text-2xl font-extrabold">Hi {user.data.user.username}</Text>
           </View>
+          <TouchableOpacity onPress={() => router.push("/profile")}>  
           <Image source={images.profile} className="rounded-full h-16 w-16" />
+          </TouchableOpacity>
         </View>
 
         <View className="bg-orange-400 rounded-md mx-4 mt-12 p-4">
