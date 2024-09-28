@@ -8,11 +8,11 @@ import axios from "axios";
 const Home = () => {
   const cardData = [
     { title: "Safest Route", img: icons.safest_route, link: "/safest-route" },
-    { title: "Book A Ride", img: icons.play, link: "/book-a-ride" },
+    { title: "Book A Ride", img: icons.book_a_ride, link: "/book-a-ride" },
     { title: "Report Incident", img: icons.report_incident, link: "/report-incident" },
     { title: "Safety Alerts", img: icons.safety_alerts, link: "/safety-alerts" },
     { title: "Find Nearby", img: icons.find_nearby, link: "/find-nearby" },
-    { title: "Emergency Contacts", img: icons.emergency_contacts, link: "/emergency-contacts" },
+    { title: "S. O. S.", img: icons.emergency_contacts, link: "/emergency-contacts" },
   ];
 
   const [postData, setPostData] = useState([]);
@@ -22,7 +22,7 @@ const Home = () => {
     setIsRefreshing(true);
     try {
       const response = await axios.get('https://6nddmv2g-8000.inc1.devtunnels.ms/api/posts/get-post');
-      console.log('Post data fetched:', response.data);
+      // console.log('Post data fetched:', response.data);
       setPostData(response.data); // Update the state with the fetched data
     } catch (error) {
       console.error("Error during fetching posts:", error.response ? error.response.data : error.message);
