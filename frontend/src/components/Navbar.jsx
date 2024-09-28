@@ -1,11 +1,18 @@
-/* eslint-disable react/prop-types */
+import { useContext } from 'react';
+import { AuthContext } from './AuthContext';
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = () => {
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
-    <nav className="w-full h-[7rem] my-15 flex items-center flex-between  ">
-      <div className=" flex items-center justify-center pt-7 ">
+    <nav className="w-full h-[7rem] my-15 flex items-center flex-between">
+      <div className="flex items-center justify-center pt-7">
         <img
-          className="object-cover "
+          className="object-cover"
           height={100}
           width={160}
           src="/logo.png"
@@ -35,20 +42,32 @@ const Navbar = ({ isLoggedIn }) => {
               FAQ&apos;s
             </a>
           </li>
-          <li>
-            <a
-              href="/dashboard"
-              className="text-lg font-semibold text-gray-800"
-            >
-              DashBoard
-            </a>
-          </li>
+          {
+            isLoggedIn && (
+              <li>
+                <a href="/dashboard" className="text-lg font-semibold text-gray-800">
+                  DashBoard
+                </a>
+              </li>
+            )
+          }
+          {
+            isLoggedIn && (
+              <li>
+                <a href="/create-Meet" className="text-lg font-semibold text-gray-800">
+                  Create Meet
+                </a>
+              </li>
+            )
+          }
         </ul>
       </div>
 
       <div className="black_btn">
-        <button className="">
-          <a href="/signIn">{isLoggedIn ? "Sign Out" : "Sign In"}</a>
+        <button onClick={isLoggedIn ? handleSignOut : null}>
+          <a href={isLoggedIn ? "/dashboard" : "/signIn"}>
+            {isLoggedIn ? "Sign Out" : "Sign In"}
+          </a>
         </button>
       </div>
     </nav>
