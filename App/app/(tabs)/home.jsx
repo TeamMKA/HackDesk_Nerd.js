@@ -8,11 +8,11 @@ import axios from "axios";
 const Home = () => {
   const cardData = [
     { title: "Safest Route", img: icons.safest_route, link: "/safest-route" },
-    { title: "Book A Ride", img: icons.play, link: "/book-a-ride" },
+    { title: "Book A Ride", img: icons.book_a_ride, link: "/book-a-ride" },
     { title: "Report Incident", img: icons.report_incident, link: "/report-incident" },
     { title: "Safety Alerts", img: icons.safety_alerts, link: "/safety-alerts" },
     { title: "Find Nearby", img: icons.find_nearby, link: "/find-nearby" },
-    { title: "Emergency Contacts", img: icons.emergency_contacts, link: "/emergency-contacts" },
+    { title: "S. O. S.", img: icons.emergency_contacts, link: "/emergency-contacts" },
   ];
 
   const [postData, setPostData] = useState([]);

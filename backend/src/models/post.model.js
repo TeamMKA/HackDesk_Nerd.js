@@ -5,6 +5,14 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true, // Adjust as needed
   },
+  latitude: {
+    type: Number,
+    required: true, // Adjust as needed
+  },
+  longitude: {
+    type: Number,
+    required: true, // Adjust as needed
+  },
   location: {
     type: String,
     required: true, // Adjust as needed
@@ -32,6 +40,10 @@ const postSchema = new mongoose.Schema({
   like: {
     type: Number,
     default: 0, // Default to 0 likes
+  },
+  dislike: {
+    type: Number,
+    default: 0, // Default to 0 dislikes
   },
 }, { timestamps: true }); // Automatically manage createdAt and updatedAt fields
 
