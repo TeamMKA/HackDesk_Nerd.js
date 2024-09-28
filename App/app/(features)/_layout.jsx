@@ -1,6 +1,4 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import SafestRoute from "./safest-route";
 import { Stack } from "expo-router";
 
 
@@ -8,6 +6,7 @@ const AppNavigator = () => {
   return (
     <>
       <Stack>
+
         <Stack.Screen
           name="safest-route"
           options={{
@@ -26,6 +25,32 @@ const AppNavigator = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="profile"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="educational-resources"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="webinar"
+          options={{
+            headerShown: false,
+          }}
+        />
+        
+        <Stack.Screen
+          name="chat-bot"
+          options={{
+            headerShown: false,
+          }}
+        />
+        
       </Stack>
     </>
   );

@@ -1,10 +1,12 @@
+
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Switch, Alert } from "react-native";
 import MapView, { Marker, Polyline, Polygon } from "react-native-maps";
 import axios from "axios";
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-// Static data for polygon areas (latitude, longitude)
+
+
 const staticPolygons = [
     { center: [19.224552, 72.832728], radius: 400 },  // Example polygon 1
     { center: [19.210552, 72.842728], radius: 300 },  // Example polygon 2
@@ -82,21 +84,20 @@ const createPolygon = (center, radius) => {
 };
 
 const MapComponent = () => {
-    const [points, setPoints] = useState([]); // Points for routing
-    const [route, setRoute] = useState(null);
-    const [customMode, setCustomMode] = useState(false); // Toggle for custom mode
+    const [points, setPoints] = useState([]);
+    const [regularRoute, setRegularRoute] = useState(null);
+    const [avoidanceRoute, setAvoidanceRoute] = useState(null);
+    const [customMode, setCustomMode] = useState(false);
 
-    // Function to handle map press events for waypoints
     const handleMapPress = (e) => {
         const newPoint = [e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude];
         setPoints((prevPoints) => [...prevPoints, newPoint]);
     };
 
-    // Function to request route from GraphHopper API
-    const getRoute = async () => {
+    const getRoute = async (avoidHeatmap = false) => {
         if (points.length < 2) {
             console.error("At least 2 points are required for routing.");
-            return; // Exit if not enough points
+            return;
         }
 
         const graphHopperPoints = points.map((point) => [point[1], point[0]]);
@@ -112,7 +113,7 @@ const MapComponent = () => {
             points_encoded: false,
         };
 
-        if (customMode) {
+        if (avoidHeatmap) {
             const polygons = staticPolygons.map((polygon) => {
                 return createPolygon(polygon.center, polygon.radius);
             });
@@ -120,7 +121,7 @@ const MapComponent = () => {
             requestData.custom_model = {
                 priority: staticPolygons.map((_, index) => ({
                     if: `in_polygon_${index}`,
-                    multiply_by: 0, // Avoid areas
+                    multiply_by: 0,
                 })),
                 areas: {
                     type: "FeatureCollection",
@@ -132,29 +133,33 @@ const MapComponent = () => {
                             type: "Polygon",
                             coordinates: [[
                                 ...polygon.map(coord => [coord.longitude, coord.latitude]),
-                                [polygon[0].longitude, polygon[0].latitude] // Close the polygon
+                                [polygon[0].longitude, polygon[0].latitude]
                             ]],
                         },
                     })),
                 },
             };
-            requestData["ch.disable"] = true; // Enable custom model
+            requestData["ch.disable"] = true;
         }
-
-        console.log("Request Data:", requestData);
 
         try {
             const response = await axios.post(
-                "https://graphhopper.com/api/1/route?key=6ff72986-10c0-4ed7-8527-c6114fd63311", // Replace with your API key
+                "https://graphhopper.com/api/1/route?key=6ff72986-10c0-4ed7-8527-c6114fd63311",
                 requestData
             );
+        // const directions = response.data.paths[0].instructions.map(instruction => instruction.text);
 
-            const graphHopperRoute =
-                response.data.paths[0].points.coordinates.map((coord) => [
-                    coord[1],
-                    coord[0],
-                ]);
-            setRoute(graphHopperRoute);
+        //     console.log(directions);    
+            const graphHopperRoute = response.data.paths[0].points.coordinates.map((coord) => [
+                coord[1],
+                coord[0],
+            ]);
+
+            if (avoidHeatmap) {
+                setAvoidanceRoute(graphHopperRoute);
+            } else {
+                setRegularRoute(graphHopperRoute);
+            }
         } catch (error) {
             console.error("Error fetching route:", error);
             if (error.response) {
@@ -163,11 +168,18 @@ const MapComponent = () => {
         }
     };
 
-    // Function to clear the route
-    const clearRoute = () => {
-        setRoute(null); // Clear the route
-        setPoints([]); // Clear the points
-        Alert.alert("Route cleared", "The route has been successfully removed."); // Alert for confirmation
+    const toggleCustomMode = () => {
+        setCustomMode((prev) => !prev);
+        if (!customMode) {
+            getRoute(true);  // Get avoidance route when turning on custom mode
+        }
+    };
+
+    const clearRoutes = () => {
+        setRegularRoute(null);
+        setAvoidanceRoute(null);
+        setPoints([]);
+        Alert.alert("Routes cleared", "All routes have been successfully removed.");
     };
 
     return (
@@ -182,47 +194,54 @@ const MapComponent = () => {
                 }}
                 onPress={handleMapPress}
             >
-                {/* Plot markers for selected points */}
                 {points.map((point, index) => (
                     <Marker key={index} coordinate={{ latitude: point[0], longitude: point[1] }} />
                 ))}
 
-                {/* Draw polyline for the route */}
-                {route && <Polyline coordinates={route.map(coord => ({ latitude: coord[0], longitude: coord[1] }))} strokeColor="blue" strokeWidth={3} />}
+                {regularRoute && (
+                    <Polyline 
+                        coordinates={regularRoute.map(coord => ({ latitude: coord[0], longitude: coord[1] }))} 
+                        strokeColor="black" 
+                        strokeWidth={3} 
+                    />
+                )}
 
-                {/* Draw polygons for avoidance areas */}
-                {staticPolygons.length > 0 &&
-                    staticPolygons.map((polygon, index) => {
-                        const coords = createPolygon(polygon.center, polygon.radius);
-                        return (
-                            <Polygon
-                                key={index}
-                                coordinates={coords}
-                                strokeColor="red"
-                                fillColor="rgba(255, 0, 0, 0.2)"
-                                strokeWidth={2}
-                            />
-                        );
-                    })}
+                {avoidanceRoute && (
+                    <Polyline 
+                        coordinates={avoidanceRoute.map(coord => ({ latitude: coord[0], longitude: coord[1] }))} 
+                        strokeColor="green" 
+                        strokeWidth={3} 
+                    />
+                )}
+
+                {staticPolygons.map((polygon, index) => {
+                    const coords = createPolygon(polygon.center, polygon.radius);
+                    return (
+                        <Polygon
+                            key={index}
+                            coordinates={coords}
+                            strokeColor="red"
+                            fillColor="rgba(255, 0, 0, 0.2)"
+                            strokeWidth={2}
+                        />
+                    );
+                })}
             </MapView>
 
-            {/* Toggle for custom mode */}
             <View style={styles.switchContainer}>
                 <Text>Avoid Heatmap</Text>
                 <Switch
                     value={customMode}
-                    onValueChange={() => setCustomMode((prev) => !prev)}
+                    onValueChange={toggleCustomMode}
                 />
             </View>
 
-            {/* Circular Button to fetch and draw the route */}
-            <TouchableOpacity style={styles.circleButton} onPress={getRoute}>
+            <TouchableOpacity style={styles.circleButton} onPress={() => getRoute(customMode)}>
                 <Icon name="route" size={35} color="white" />
                 <Text style={styles.buttonText}>Go</Text>
             </TouchableOpacity>
 
-            {/* Button to clear the route */}
-            <TouchableOpacity style={styles.clearButton} onPress={clearRoute}>
+            <TouchableOpacity style={styles.clearButton} onPress={clearRoutes}>
                 <Icon name="trash" size={20} color="white" />
                 <Text style={styles.buttonText}>Clear</Text>
             </TouchableOpacity>

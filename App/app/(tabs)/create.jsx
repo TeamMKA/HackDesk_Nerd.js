@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, TextInput, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Modal } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; // Import the Picker
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { Audio } from 'expo-av';
 import Icon1 from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
-import axios from 'axios'
-
+import MapView, { Marker } from 'react-native-maps'; // Import MapView and Marker
+import axios from 'axios';
 
 const CreateIncident = ({ onSubmit }) => {
   const [incidentType, setIncidentType] = useState('');
@@ -16,9 +16,16 @@ const CreateIncident = ({ onSubmit }) => {
   const [location, setLocation] = useState(null);
   const [photoFiles, setPhotoFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
-  const [audioFile, setAudioFile] = useState(null);
+  const [audioFiles, setAudioFiles] = useState([]); // Change from single audioFile to array
   const [isRecording, setIsRecording] = useState(false);
   const [recording, setRecording] = useState();
+  const [modalVisible, setModalVisible] = useState(false); // New state for map modal
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 37.78825, // Default latitude
+    longitude: -122.4324, // Default longitude
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
   const incidentTypes = [
     'Select Incident Type',
@@ -26,10 +33,8 @@ const CreateIncident = ({ onSubmit }) => {
     'Accident',
     'Harassment',
     'Suspicious Activity',
-    'Other', // You can add more incident types here
+    'Other',
   ];
-
-  
 
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -43,16 +48,21 @@ const CreateIncident = ({ onSubmit }) => {
       latitude: loc.coords.latitude,
       longitude: loc.coords.longitude,
     });
-    fetchAreaFromCoordinates(loc.coords.latitude, loc.coords.longitude); // Fetch area
+    setMapRegion({
+      latitude: loc.coords.latitude,
+      longitude: loc.coords.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
+    fetchAreaFromCoordinates(loc.coords.latitude, loc.coords.longitude);
   };
 
-  // Function to fetch area from latitude and longitude
   const fetchAreaFromCoordinates = async (latitude, longitude) => {
     try {
       const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
       const data = await response.json();
       if (data && data.display_name) {
-        setArea(data.display_name); // Set area from the API response
+        setArea(data.display_name);
       }
     } catch (error) {
       console.error('Error fetching area:', error);
@@ -63,15 +73,6 @@ const CreateIncident = ({ onSubmit }) => {
     getCurrentLocation();
   }, []);
 
-  // const pickPhotos = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsMultipleSelection: true,
-  //   });
-  //   if (!result.canceled) {
-  //     setPhotoFiles([...photoFiles, result.uri]);
-  //   }
-  // };
   const pickPhotos = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -79,10 +80,7 @@ const CreateIncident = ({ onSubmit }) => {
     });
     if (!result.canceled) {
       setPhotoFiles([...photoFiles, ...result.assets.map(asset => asset.uri)]);
-      Alert.alert(
-        "Photo Saved",
-        "Your file has been saved successfully!",
-        [{ text: "OK" }])
+      Alert.alert("Photo Saved", "Your file has been saved successfully!", [{ text: "OK" }]);
     }
   };
 
@@ -93,20 +91,14 @@ const CreateIncident = ({ onSubmit }) => {
     });
     if (!result.canceled) {
       setVideoFiles([...videoFiles, ...result.assets.map(asset => asset.uri)]);
-      Alert.alert(
-        "Video Saved",
-        "Your file has been saved successfully!",
-        [{ text: "OK" }])
+      Alert.alert("Video Saved", "Your file has been saved successfully!", [{ text: "OK" }]);
     }
   };
 
   const startAudioRecording = async () => {
     try {
-      // Request permissions to access audio recording
       await Audio.requestPermissionsAsync();
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY
-      );
+      const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
       setRecording(recording);
       setIsRecording(true);
       console.log('Recording started');
@@ -116,46 +108,44 @@ const CreateIncident = ({ onSubmit }) => {
   };
 
   const stopAudioRecording = async () => {
-      if (recording) {
-          await recording.stopAndUnloadAsync();
-          setIsRecording(false);
-          const uri = recording.getURI(); // The URI of the recorded audio file
-          console.log('Recording stopped and stored at', uri);
-          setAudioFile(uri); // Save the recorded audio file URI
-  
-          // Show alert after stopping the recording
-          Alert.alert(
-              "Recording Saved",
-              "Your voice recording has been saved successfully!",
-              [{ text: "OK" }]
-          );
-      }
-  };
-  
-const handleSubmit = async () => {
-  const incident = {
-    type:incidentType,
-    description,
-    location:area,
-    // location: location || null,
-    latitude:location.latitude || null,
-    longitude:location.longitude || null,
-    photoFiles,
-    videoFiles,
-    audioFile,
-  };
-  console.log(incident);
+    if (recording) {
+      await recording.stopAndUnloadAsync();
+      setIsRecording(false);
+      const uri = recording.getURI();
+      console.log('Recording stopped and stored at', uri);
+      setAudioFiles([...audioFiles, uri]); // Add recorded audio to audioFiles array
 
-  try {
-    const response = await axios.post('https://qd1v2drq-8000.inc1.devtunnels.ms/api/posts/send-post', incident);
-    console.log('Incident submitted successfully:', response.data);
-    resetForm();
-  } catch (error) {
-    console.error('Error submitting incident:', error);
-    alert('Error submitting incident: ' + error.response.data.message);
-  }
-};
+      Alert.alert("Recording Saved", "Your voice recording has been saved successfully!", [{ text: "OK" }]);
+    }
+  };
 
+  const handleLocationSelect = (latitude, longitude) => {
+    setLocation({ latitude, longitude });
+    setModalVisible(false); // Close the modal
+  };
+
+  const handleSubmit = async () => {
+    const incident = {
+      type: incidentType,
+      description,
+      location: area, // Use area as the location
+      latitude: location?.latitude || null,
+      longitude: location?.longitude || null,
+      photoFiles,
+      videoFiles,
+      audioFiles, // Send the array of audio files
+    };
+    console.log(incident);
+
+    try {
+      const response = await axios.post('https://qd1v2drq-8000.inc1.devtunnels.ms/api/posts/send-post', incident);
+      console.log('Incident submitted successfully:', response.data);
+      resetForm();
+    } catch (error) {
+      console.error('Error submitting incident:', error);
+      alert('Error submitting incident: ' + error.response.data.message);
+    }
+  };
 
   const resetForm = () => {
     setIncidentType('');
@@ -164,7 +154,7 @@ const handleSubmit = async () => {
     setLocation(null);
     setPhotoFiles([]);
     setVideoFiles([]);
-    setAudioFile(null);
+    setAudioFiles([]); // Reset audioFiles array
   };
 
   return (
@@ -194,8 +184,18 @@ const handleSubmit = async () => {
         style={styles.input}
         placeholder="Area will be auto-filled"
         value={area}
-        onChangeText={setArea}
+        editable={false} // Make area input read-only
       />
+
+      <View style={styles.locationContainer}>
+        <TouchableOpacity style={styles.mapButton} onPress={() => setModalVisible(true)}>
+          <Text style={styles.mapButtonText}>Pick Location </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.currentLocationButton} onPress={getCurrentLocation}>
+          <Text style={styles.currentLocationButtonText}>Current Location</Text>
+        </TouchableOpacity>
+      </View>
 
       <Text style={styles.label}>Location</Text>
       <TextInput
@@ -230,6 +230,25 @@ const handleSubmit = async () => {
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>Submit Incident</Text>
       </TouchableOpacity>
+
+      {/* Modal for Map */}
+      <Modal visible={modalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          <MapView
+            style={styles.map}
+            region={mapRegion}
+            onRegionChangeComplete={(region) => setMapRegion(region)}
+            onPress={(e) => handleLocationSelect(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)}
+          >
+            {location && (
+              <Marker coordinate={location} title="Selected Location" />
+            )}
+          </MapView>
+          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -259,29 +278,29 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 4,
+
     paddingHorizontal: 10,
-    marginBottom: 15,
   },
   textArea: {
-    height: 80,
+    height: 100,
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 4,
-    paddingHorizontal: 10,
-    textAlignVertical: 'top',
     marginBottom: 15,
+    paddingHorizontal: 10,
   },
   mediaButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginVertical: 20,
   },
   squareButton: {
+    backgroundColor: '#007BFF',
     flex: 1,
     backgroundColor: '#007bff',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
+    borderRadius: 25,
     padding: 10,
     margin: 5,
   },
@@ -289,19 +308,64 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginTop: 5,
   },
-  buttonActive: {
-    backgroundColor: '#28a745', // Change color when recording
-  },
   submitButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#28a745',
+    padding: 15,
+    borderRadius: 5,
     alignItems: 'center',
-    padding: 10,
-    borderRadius: 8,
   },
   submitButtonText: {
     color: '#fff',
-    fontSize: 16,
     fontWeight: 'bold',
+    fontSize: 16,
+  },
+  mapButton: {
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginVertical: 15,
+  },
+  currentLocationButton: {
+    backgroundColor: '#28a745',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginVertical: 15,
+    marginLeft: 10,
+  },
+  mapButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  currentLocationButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+    width: '100%',
+    height: '50%', // Limit height of map
+  },
+  closeButton: {
+    backgroundColor: '#dc3545',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 15,
   },
 });
 

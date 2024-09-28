@@ -18,6 +18,8 @@ import safety_alerts from "../assets/icons/safety_alerts.png";
 import find_nearby from "../assets/icons/find_nearby.png";
 import emergency_contacts from "../assets/icons/emergency_contacts.png";
 import book_a_ride from "../assets/icons/book-a-ride.png";
+import webinar from "../assets/icons/webinar.png";
+import chat_bot from "../assets/icons/chat_bot.png";
 
 export default {
   play,
@@ -40,4 +42,6 @@ export default {
   find_nearby,
   emergency_contacts,
   book_a_ride,
+  chat_bot,
+  webinar,
 };
