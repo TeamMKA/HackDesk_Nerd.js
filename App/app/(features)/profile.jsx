@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Button, Text, StyleSheet } from 'react-native';
 import { useGlobalContext } from '../../context/GlobalProvider';
-import { images } from './../../constants';
+import { images } from '../../constants';
 
 const Profile = () => {
   const { user } = useGlobalContext();

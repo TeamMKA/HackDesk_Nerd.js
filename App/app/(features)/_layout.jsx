@@ -6,6 +6,7 @@ const AppNavigator = () => {
   return (
     <>
       <Stack>
+        
         <Stack.Screen
           name="safest-route"
           options={{
@@ -20,6 +21,12 @@ const AppNavigator = () => {
         />
         <Stack.Screen
           name="emergency-contacts"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="profile"
           options={{
             headerShown: false,
           }}
