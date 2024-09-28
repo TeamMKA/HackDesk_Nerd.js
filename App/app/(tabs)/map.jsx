@@ -1,28 +1,31 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import MapView, { UrlTile, Marker } from 'react-native-maps';
+import axios from 'axios';
 
 const MapScreen = () => {
   const mapTilerAPIKey = 'bkvtUEamLwAwoV2q2Tpj'; // Replace with your MapTiler API key
 
   // State to toggle incidents visibility
   const [showIncidents, setShowIncidents] = useState(true);
-  
-  // Sample incident data (you can replace this with actual dynamic data)
-  const incidents = [
-    {
-      id: 1,
-      title: 'Incident 1',
-      description: 'Description for Incident 1',
-      location: { latitude: 19.076, longitude: 72.8777 },
-    },
-    {
-      id: 2,
-      title: 'Incident 2',
-      description: 'Description for Incident 2',
-      location: { latitude: 19.1, longitude: 72.88 },
-    },
-  ];
+  const [incidents, setIncidents] = useState([]); // Incident data from backend
+  const [loading, setLoading] = useState(false); // Loading state
+
+  useEffect(() => {
+    // Fetch incidents from the backend
+    const fetchIncidents = async () => {
+      try {
+        const response = await axios.get('https://qd1v2drq-8000.inc1.devtunnels.ms/api/incidents'); // Replace with your actual API URL
+        setIncidents(response.data); // Assuming response.data contains an array of incidents
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching incidents:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchIncidents();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -66,6 +69,13 @@ const MapScreen = () => {
           />
         </View>
       </View>
+
+      {/* Loading Spinner */}
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )}
     </View>
   );
 };
@@ -90,6 +100,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10, // Space between buttons
     borderRadius: 10, // Rounded corners for the button container
     overflow: 'hidden', // Ensures rounded corners on Button
+  },
+  loadingContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -50 }, { translateY: -50 }],
   },
 });
 

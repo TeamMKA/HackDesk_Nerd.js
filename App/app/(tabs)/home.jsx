@@ -21,7 +21,7 @@ const Home = () => {
   const fetchData = async () => {
     setIsRefreshing(true);
     try {
-      const response = await axios.get('https://6nddmv2g-8000.inc1.devtunnels.ms/api/posts/get-post');
+      const response = await axios.get('https://qd1v2drq-8000.inc1.devtunnels.ms/api/posts/get-post');
       console.log('Post data fetched:', response.data);
       setPostData(response.data); // Update the state with the fetched data
     } catch (error) {
