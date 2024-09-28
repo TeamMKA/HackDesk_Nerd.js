@@ -13,34 +13,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// Mock data for incidents
-/* const incidents = [
-  {
-    id: 1,
-    title: "Traffic accident on Main St",
-    severity: "High",
-    time: "2 hours ago",
-  },
-  {
-    id: 2,
-    title: "Power outage in Downtown",
-    severity: "Medium",
-    time: "5 hours ago",
-  },
-  {
-    id: 3,
-    title: "Fallen tree blocking sidewalk",
-    severity: "Low",
-    time: "1 day ago",
-  },
-  {
-    id: 4,
-    title: "Water main break on Elm St",
-    severity: "High",
-    time: "2 days ago",
-  },
-];
- */
 // Mock data for the chart
 const chartData = [
   { name: "Mon", incidents: 4 },
@@ -54,15 +26,20 @@ const chartData = [
 
 export default function Dashboard() {
   const router = useNavigate();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchDataAsync = async () => {
       try {
         const response = await axios.get(
-          "https://6nddmv2g-8000.inc1.devtunnels.ms/api/posts/get-post"
+          "https://dndck985-8000.inc1.devtunnels.ms/api/posts/get-post"
         );
-        console.log(response.data);
-        setData(response.data);
+        console.log(response.data.data);
+        if (Array.isArray(response.data.data)) {
+          setData(response.data.data);
+        } else {
+          console.error("API response is not an array");
+        }
       } catch (error) {
         console.error(error);
       }
@@ -75,8 +52,6 @@ export default function Dashboard() {
     router("/incident");
   };
 
-  const [data, setData] = useState([]);
-
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
@@ -87,6 +62,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error(error);
     }
+   console.log("Delete incident with id", id);
   };
 
   return (
@@ -122,28 +98,32 @@ export default function Dashboard() {
               Recent Incidents
             </h2>
             <div className="space-y-4">
-              {data.map((incident) => (
-                <div key={incident._id} className="border-b pb-2 ">
-                  <h3 className="font-medium">{incident.type}</h3>
-                  <div className="flex justify-between text-sm text-gray-500">
-                    <span
-                      className="cursor-pointer"
-                      onClick={handleIncidentPage}
-                    >
-                      Severity: {incident.description}
-                    </span>
-                    <div className="flex space-x-5">
-                      <button
-                        className="bg-orange-900 text-white px-3 py-2 rounded-full"
-                        onClick={() => handleDelete(incident._id)}
+              {Array.isArray(data) && data.length > 0 ? (
+                data.map((incident) => (
+                  <div key={incident._id} className="border-b pb-2 ">
+                    <h3 className="font-medium">{incident.type}</h3>
+                    <div className="flex justify-between text-sm text-gray-500">
+                      <span
+                        className="cursor-pointer"
+                        onClick={handleIncidentPage}
                       >
-                        Delete
-                      </button>
-                      <span>5 hours ago</span>
+                        Severity: {incident.description}
+                      </span>
+                      <div className="flex space-x-5">
+                        <button
+                          className="bg-orange-900 text-white px-3 py-2 rounded-full"
+                          onClick={() => handleDelete(incident._id)}
+                        >
+                          Delete
+                        </button>
+                        <span>5 hours ago</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>No incidents available.</p>
+              )}
             </div>
           </div>
         </div>
