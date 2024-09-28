@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import SignInPage from "./pages/SignInPage";
 import DashBoard from "./pages/DashBoard";
 import IncidentDetail from "./pages/IncidentDetail";
+import CreateMeet from "./pages/CreateMeet";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/signIn" element={<SignInPage />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/incident" element={<IncidentDetail />} />
+          <Route path="/create-Meet" element={<CreateMeet />} />
         </Routes>
       </main>
     </Router>
