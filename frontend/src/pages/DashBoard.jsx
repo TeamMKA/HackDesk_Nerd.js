@@ -53,7 +53,6 @@ const chartData = [
 ];
 
 export default function Dashboard() {
-
   const router = useNavigate();
 
   useEffect(() => {
@@ -77,6 +76,18 @@ export default function Dashboard() {
   };
 
   const [data, setData] = useState([]);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(
+        `https://dndck985-8000.inc1.devtunnels.ms/api/posts/delete-post/${id}`
+      );
+      console.log(response.data);
+      setData(data.filter((incident) => incident._id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-inherit p-4 w-full ">
@@ -112,11 +123,24 @@ export default function Dashboard() {
             </h2>
             <div className="space-y-4">
               {data.map((incident) => (
-                <div key={incident._id} className="border-b pb-2 cursor-pointer " onClick={handleIncidentPage}>
+                <div key={incident._id} className="border-b pb-2 ">
                   <h3 className="font-medium">{incident.type}</h3>
                   <div className="flex justify-between text-sm text-gray-500">
-                    <span>Severity: {incident.description}</span>
-                    <span>5 hours ago</span>
+                    <span
+                      className="cursor-pointer"
+                      onClick={handleIncidentPage}
+                    >
+                      Severity: {incident.description}
+                    </span>
+                    <div className="flex space-x-5">
+                      <button
+                        className="bg-orange-900 text-white px-3 py-2 rounded-full"
+                        onClick={() => handleDelete(incident._id)}
+                      >
+                        Delete
+                      </button>
+                      <span>5 hours ago</span>
+                    </div>
                   </div>
                 </div>
               ))}

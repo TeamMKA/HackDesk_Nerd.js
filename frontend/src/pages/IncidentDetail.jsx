@@ -14,8 +14,8 @@ const IncidentDetail = () => {
           "https://6nddmv2g-8000.inc1.devtunnels.ms/api/posts/get-post"
         );
         console.log(response.data);
-        setIncident(response.data[14]);
-        setVideo(response.data[14].videoFile);
+        setIncident(response.data[0]);
+        setVideo(response.data[0].videoFile);
       } catch (error) {
         console.error(error);
       }
