@@ -18,4 +18,5 @@ import userRouter from "./routes/user.routes.js"
 app.use("/api/users", userRouter)
 app.use("/api/posts", postRouter)
 app.use("/api/webinars", webinarRouter)
+
 export { app }
