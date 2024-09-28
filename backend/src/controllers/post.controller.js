@@ -3,7 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
-import fs from 'fs';
+import fs from "fs"
 
 export const getPost = asyncHandler(async (req, res) => {
     try {
@@ -20,59 +20,82 @@ export const getPost = asyncHandler(async (req, res) => {
 })
 
 export const sendPost = asyncHandler(async (req, res) => {
-    const { type, location, description } = req.body
+    const {
+        type,
+        latitude,
+        longitude,
+        location,
+        description,
+        comments,
+        like,
+        dislike,
+    } = req.body
 
-    if (!type || !location || !description) {
+    // Ensure all required fields are provided
+    if (!type || !latitude || !longitude || !location || !description) {
         throw new ApiError(400, "All fields are required")
     }
 
-    // Array to store URLs of the uploaded files
+    // Arrays and variables to store URLs of the uploaded files
     let imageFiles = []
     let videoFile = ""
     let audioFile = ""
 
-    // Upload image files to Cloudinary
+    // Upload image files to Cloudinary if present
     if (req.files?.imageFiles) {
         imageFiles = await Promise.all(
             req.files.imageFiles.map(async (image) => {
                 const uploadedImage = await uploadOnCloudinary(image.path)
-                if (!uploadedImage)
+                if (!uploadedImage) {
                     throw new ApiError(500, "Error uploading image")
-                // After uploading, you can delete the local file
-                // fs.unlinkSync(image.path)
+                }
+                // Optionally, delete the local file after uploading
+                // fs.unlinkSync(image.path);
                 return uploadedImage.url
             })
         )
     }
 
-    // Upload video file to Cloudinary
+    // Upload video file to Cloudinary if present
     if (req.files?.videoFile && req.files.videoFile[0]) {
         const video = req.files.videoFile[0]
         const uploadedVideo = await uploadOnCloudinary(video.path)
-        if (!uploadedVideo) throw new ApiError(500, "Error uploading video")
+        if (!uploadedVideo) {
+            throw new ApiError(500, "Error uploading video")
+        }
         videoFile = uploadedVideo.url
-        // fs.unlinkSync(video.path) // Delete local file after upload
+        // Optionally, delete the local file after uploading
+        // fs.unlinkSync(video.path);
     }
 
-    // Upload audio file to Cloudinary
+    // Upload audio file to Cloudinary if present
     if (req.files?.audioFile && req.files.audioFile[0]) {
         const audio = req.files.audioFile[0]
         const uploadedAudio = await uploadOnCloudinary(audio.path)
-        if (!uploadedAudio) throw new ApiError(500, "Error uploading audio")
+        if (!uploadedAudio) {
+            throw new ApiError(500, "Error uploading audio")
+        }
         audioFile = uploadedAudio.url
-        // fs.unlinkSync(audio.path) // Delete local file after upload
+        // Optionally, delete the local file after uploading
+        // fs.unlinkSync(audio.path);
     }
 
-    // Create a new post with the uploaded file URLs
+    // Create a new post in the database with the uploaded file URLs
     const post = await Post.create({
         type,
+        latitude,
+        longitude,
         location,
         description,
         imageFiles, // Array of image URLs
         videoFile, // Video URL
         audioFile, // Audio URL
+        comments: comments || [], // Comments from req.body, defaults to empty array if not provided
+        like: like || 0, // Likes from req.body, defaults to 0 if not provided
+        dislike: dislike || 0, // Dislikes from req.body, defaults to 0 if not provided
     })
 
+    // Respond with the created post and success message
     res.status(201).json(
         new ApiResponse(201, post, "Post created successfully")
     )
