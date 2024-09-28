@@ -16,9 +16,10 @@ const Home = () => {
     { title: "Book A Ride", img: icons.book_a_ride, link: "/book-a-ride" },
     { title: "Report Incident", img: icons.report_incident, link: "/report-incident" },
     { title: "Safety Alerts", img: icons.safety_alerts, link: "/safety-alerts" },
-    { title: "Find Nearby", img: icons.find_nearby, link: "/find-nearby" },
+    { title: "Educational Resources", img: icons.find_nearby, link: "/educational-resources" },
     { title: "S. O. S.", img: icons.emergency_contacts, link: "/emergency-contacts" },
-    { title: "Educational Resources", img: icons.emergency_contacts, link: "/emergency-contacts" },
+    { title: "Join Webinars", img: icons.emergency_contacts, link: "/webinar" },
+
   ];
 
   const [postData, setPostData] = useState([]);
