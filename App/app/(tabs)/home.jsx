@@ -18,7 +18,7 @@ const Home = () => {
     { title: "Safety Alerts", img: icons.safety_alerts, link: "/safety-alerts" },
     { title: "Educational Resources", img: icons.find_nearby, link: "/educational-resources" },
     { title: "S. O. S.", img: icons.emergency_contacts, link: "/emergency-contacts" },
-    { title: "Join Webinars", img: icons.emergency_contacts, link: "/webinar" },
+    { title: "Join Webinars", img: icons.webinar, link: "/webinar" },
 
   ];
 
