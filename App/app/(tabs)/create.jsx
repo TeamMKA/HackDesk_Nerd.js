@@ -134,10 +134,12 @@ const CreateIncident = ({ onSubmit }) => {
   
 const handleSubmit = async () => {
   const incident = {
-    incidentType,
+    type:incidentType,
     description,
-    area,
-    location: location || null,
+    location:area,
+    // location: location || null,
+    latitude:location.latitude || null,
+    longitude:location.longitude || null,
     photoFiles,
     videoFiles,
     audioFile,
@@ -145,7 +147,7 @@ const handleSubmit = async () => {
   console.log(incident);
 
   try {
-    const response = await axios.post('https://your-backend-api-url.com/incidents', incident);
+    const response = await axios.post('https://qd1v2drq-8000.inc1.devtunnels.ms/api/posts/send-post', incident);
     console.log('Incident submitted successfully:', response.data);
     resetForm();
   } catch (error) {

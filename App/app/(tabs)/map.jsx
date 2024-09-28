@@ -6,25 +6,34 @@ import axios from 'axios';
 const MapScreen = () => {
   const mapTilerAPIKey = 'bkvtUEamLwAwoV2q2Tpj'; // Replace with your MapTiler API key
 
-  // State to toggle incidents visibility
-  const [showIncidents, setShowIncidents] = useState(true);
-  const [incidents, setIncidents] = useState([]); // Incident data from backend
+  const [showIncidents, setShowIncidents] = useState(true); // Toggle to show/hide incidents
+  const [incidents, setIncidents] = useState([]); // Incident data from the backend
   const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
     // Fetch incidents from the backend
     const fetchIncidents = async () => {
+      setLoading(true); // Set loading to true while fetching data
       try {
-        const response = await axios.get('https://qd1v2drq-8000.inc1.devtunnels.ms/api/incidents'); // Replace with your actual API URL
-        setIncidents(response.data); // Assuming response.data contains an array of incidents
-        setLoading(false);
+        const response = await axios.get('https://qd1v2drq-8000.inc1.devtunnels.ms/api/posts/get-post'); // Replace with your actual API URL
+        const data = response.data; // Assuming response.data contains an array of incidents
+              
+        // Extract latitude and longitude from the response
+        const coordinates = data.map(({ latitude, longitude }) => ({
+          latitude,
+          longitude
+        }));
+
+        
+        setIncidents(data); // Update incidents state with the API response
+        setLoading(false); // Stop loading
       } catch (error) {
         console.error('Error fetching incidents:', error);
-        setLoading(false);
+        setLoading(false); // Stop loading even in case of error
       }
     };
 
-    fetchIncidents();
+    fetchIncidents(); // Call the function to fetch data on component mount
   }, []);
 
   return (
@@ -48,11 +57,14 @@ const MapScreen = () => {
 
         {/* Show incidents if toggled on */}
         {showIncidents &&
-          incidents.map((incident) => (
+          incidents.map((incident, index) => (
             <Marker
-              key={incident.id}
-              coordinate={incident.location}
-              title={incident.title}
+              key={index}
+              coordinate={{
+                latitude: incident.latitude,
+                longitude: incident.longitude
+              }}
+              title={incident.type}
               description={incident.description}
             />
           ))
@@ -83,6 +95,7 @@ const MapScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop:30
   },
   map: {
     ...StyleSheet.absoluteFillObject,
