@@ -147,7 +147,9 @@ const MapComponent = () => {
                 "https://graphhopper.com/api/1/route?key=6ff72986-10c0-4ed7-8527-c6114fd63311",
                 requestData
             );
+            const directions = response.data.paths[0].instructions.map(instruction => instruction.text);
 
+            console.log(directions);
             const graphHopperRoute = response.data.paths[0].points.coordinates.map((coord) => [
                 coord[1],
                 coord[0],
