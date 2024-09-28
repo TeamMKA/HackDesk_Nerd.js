@@ -63,10 +63,23 @@ SafeRakshak provides users with a platform for reporting and visualizing safety 
 
         ![register](</assets/WhatsApp%20Image%202024-09-28%20at%202.36.03%20PM%20(3).jpeg>)
         ![register](/assets/Screenshot_2024-09-28-14-39-02-28_f73b71075b1de7323614b647fe394240.jpg)
+        ![register](</assets/Screenshot_2024-09-28-14-52-37-81_f73b71075b1de7323614b647fe394240.jpg>)
 
 6. **Admins can schedule meets for naive people**
    ![register](</assets/Screenshot_2024-09-28-14-40-50-57_f73b71075b1de7323614b647fe394240%20(1).jpg>)
    ![register](/assets/Screenshot_2024-09-28-14-55-08-58_f73b71075b1de7323614b647fe394240.jpg)
+
+7. **Book a Ride On the App when you are in unsafe Area**
+
+![register](</assets/Screenshot_2024-09-28-14-54-39-12_f73b71075b1de7323614b647fe394240.jpg)
+   ![register](/assets/Screenshot_2024-09-28-14-54-57-62_ac3737bae9ff3034c1f358df611add2a.jpg)
+
+
+8. **Emergency Multilingual Contacts**
+![register](</assets/Screenshot_2024-09-28-14-55-14-70_f73b71075b1de7323614b647fe394240.jpg>)
+   ![register](/assets/Screenshot_2024-09-28-14-55-24-22_c31b32364ce19ca8fcd150a417ecce58.jpg)
+   ![register](</assets/Screenshot_2024-09-28-14-55-30-19_21e8cabcf42c673ec340bb67ba55b55b.jpg>)
+
 
 ## Technologies Used
 
