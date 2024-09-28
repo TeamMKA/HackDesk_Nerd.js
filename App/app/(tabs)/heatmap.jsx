@@ -1,11 +1,8 @@
-
-
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Switch } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Switch, Alert } from "react-native";
 import MapView, { Marker, Polyline, Polygon } from "react-native-maps";
 import axios from "axios";
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
 
 // Static data for polygon areas (latitude, longitude)
 const staticPolygons = [
@@ -67,7 +64,7 @@ const staticPolygons = [
     // Circles at Worli
     { center: [19.007260, 72.826274], radius: 500 },  // Worli area
     { center: [19.010260, 72.828274], radius: 400 },
-    
+ 
 ];
 
 // Function to create a polygon from center and radius
@@ -166,6 +163,13 @@ const MapComponent = () => {
         }
     };
 
+    // Function to clear the route
+    const clearRoute = () => {
+        setRoute(null); // Clear the route
+        setPoints([]); // Clear the points
+        Alert.alert("Route cleared", "The route has been successfully removed."); // Alert for confirmation
+    };
+
     return (
         <View style={styles.container}>
             <MapView
@@ -204,7 +208,7 @@ const MapComponent = () => {
 
             {/* Toggle for custom mode */}
             <View style={styles.switchContainer}>
-                <Text>Custom Mode (Avoid Areas with Polygons)</Text>
+                <Text>Avoid Heatmap</Text>
                 <Switch
                     value={customMode}
                     onValueChange={() => setCustomMode((prev) => !prev)}
@@ -215,6 +219,12 @@ const MapComponent = () => {
             <TouchableOpacity style={styles.circleButton} onPress={getRoute}>
                 <Icon name="route" size={35} color="white" />
                 <Text style={styles.buttonText}>Go</Text>
+            </TouchableOpacity>
+
+            {/* Button to clear the route */}
+            <TouchableOpacity style={styles.clearButton} onPress={clearRoute}>
+                <Icon name="trash" size={20} color="white" />
+                <Text style={styles.buttonText}>Clear</Text>
             </TouchableOpacity>
         </View>
     );
@@ -241,12 +251,32 @@ const styles = StyleSheet.create({
     },
     circleButton: {
         position: 'absolute',
-        bottom: 30,
+        bottom: 100,
         right: 30,
-        width: 80,
-        height: 80,
+        width: 70,
+        height: 70,
         borderRadius: 50,
         backgroundColor: 'blue',
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5, // For Android shadow
+        shadowColor: '#000', // For iOS shadow
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 3.84,
+    },
+    clearButton: {
+        position: 'absolute',
+        bottom: 30,
+        right: 35,
+        marginTop: 10,
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        backgroundColor: 'red',
         justifyContent: 'center',
         alignItems: 'center',
         elevation: 5, // For Android shadow
