@@ -1,0 +1,97 @@
+{
+  "hash": "f3461e08",
+  "configHash": "07d5782f",
+  "lockfileHash": "c5f41fee",
+  "browserHash": "b776ddee",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "d8140226",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "d27b8716",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "b447115a",
+      "needsInterop": false
+    },
+    "react-icons/io": {
+      "src": "../../node_modules/react-icons/io/index.mjs",
+      "file": "react-icons_io.js",
+      "fileHash": "c76c3314",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "01d5edfd",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "8160d4f7",
+      "needsInterop": false
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "3a1f4466",
+      "needsInterop": false
+    },
+    "react-hot-toast": {
+      "src": "../../node_modules/react-hot-toast/dist/index.mjs",
+      "file": "react-hot-toast.js",
+      "fileHash": "366767e7",
+      "needsInterop": false
+    },
+    "recharts": {
+      "src": "../../node_modules/recharts/es6/index.js",
+      "file": "recharts.js",
+      "fileHash": "5b797d32",
+      "needsInterop": false
+    },
+    "styled-components": {
+      "src": "../../node_modules/styled-components/dist/styled-components.browser.esm.js",
+      "file": "styled-components.js",
+      "fileHash": "b8b0dd3e",
+      "needsInterop": false
+    },
+    "react-leaflet": {
+      "src": "../../node_modules/react-leaflet/lib/index.js",
+      "file": "react-leaflet.js",
+      "fileHash": "034292d3",
+      "needsInterop": false
+    },
+    "leaflet": {
+      "src": "../../node_modules/leaflet/dist/leaflet-src.js",
+      "file": "leaflet.js",
+      "fileHash": "6b841061",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-KVREVINV": {
+      "file": "chunk-KVREVINV.js"
+    },
+    "chunk-JBQHTMDR": {
+      "file": "chunk-JBQHTMDR.js"
+    },
+    "chunk-JMVEG3FK": {
+      "file": "chunk-JMVEG3FK.js"
+    },
+    "chunk-TWJRYSII": {
+      "file": "chunk-TWJRYSII.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
+}
