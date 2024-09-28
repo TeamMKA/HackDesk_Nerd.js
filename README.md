@@ -1,6 +1,5 @@
-# HackDesk_Nerd.js
+# HackDeck_Nerd.js
 
-Atharva College Hack Desk Hackathon
 
 # SafeRakshak
 
