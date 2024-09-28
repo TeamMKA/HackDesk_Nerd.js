@@ -24,7 +24,30 @@ const MapScreen = () => {
           longitude,
         }));
 
-        setIncidents(data); // Update incidents state with the API response
+        // Create dummy incidents
+        const dummyIncidents = [
+          {
+            latitude: 19.0760,
+            longitude: 72.8777,
+            type: 'Dummy Incident 1',
+            description: 'Description for dummy incident 1',
+          },
+          {
+            latitude: 19.010405,
+            longitude: 72.834275,
+            type: 'Dummy Incident 2',
+            description: 'Description for dummy incident 2',
+          },
+          {
+            latitude: 19.09600,
+            longitude: 72.897712,
+            type: 'Dummy Incident 3',
+            description: 'Description for dummy incident 3',
+          },
+        ];
+
+        // Combine fetched incidents with dummy incidents
+        setIncidents([...data, ...dummyIncidents]); // Update incidents state with the API response and dummy incidents
       } catch (error) {
         console.error('Error fetching incidents:', error);
       } finally {
@@ -33,30 +56,6 @@ const MapScreen = () => {
     };
 
     fetchIncidents(); // Call the function to fetch data on component mount
-
-    // Create dummy incidents
-    const dummyIncidents = [
-      {
-        latitude: 19.0760,
-        longitude: 72.8777,
-        type: 'Dummy Incident 1',
-        description: 'Description for dummy incident 1',
-      },
-      {
-        latitude: 19.0860,
-        longitude: 72.8877,
-        type: 'Dummy Incident 2',
-        description: 'Description for dummy incident 2',
-      },
-      {
-        latitude: 19.0960,
-        longitude: 72.8977,
-        type: 'Dummy Incident 3',
-        description: 'Description for dummy incident 3',
-      },
-    ];
-
-    setIncidents(prevIncidents => [...prevIncidents, ...dummyIncidents]);
   }, []);
 
   return (
