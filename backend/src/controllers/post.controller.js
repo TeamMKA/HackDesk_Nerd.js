@@ -100,3 +100,24 @@ export const sendPost = asyncHandler(async (req, res) => {
         new ApiResponse(201, post, "Post created successfully")
     )
 })
+
+export const deletePost = asyncHandler(async (req, res) => {
+    const { id } = req.params // Assume the post ID is passed as a URL parameter
+
+    // Find the post by its ID
+    const post = await Post.findById(id)
+
+    // If the post doesn't exist, return a 404 error
+    if (!post) {
+        throw new ApiError(404, "Post not found")
+    }
+    // console.log(`${post} deleted`)
+
+    // Delete the post from the database
+    await post.deleteOne()
+
+    // Send a success response
+    res.status(200).json(
+        new ApiResponse(200, null, "Post deleted successfully")
+    )
+})
