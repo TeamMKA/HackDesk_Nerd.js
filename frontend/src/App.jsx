@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import SignInPage from "./pages/SignInPage";
 import DashBoard from "./pages/DashBoard";
+import IncidentDetail from "./pages/IncidentDetail";
 
 function App() {
   return (
@@ -17,9 +18,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signIn" element={<SignInPage />} />
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/incident" element={<IncidentDetail />} />
         </Routes>
       </main>
-
     </Router>
   );
 }
