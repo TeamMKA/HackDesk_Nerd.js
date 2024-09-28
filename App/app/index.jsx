@@ -16,6 +16,10 @@ export default function App() {
     }
   }, [isLogged])
 
+
+
+
+
   return (
     <SafeAreaView className="bg-[#FAF7F0] h-full">
       <ScrollView
