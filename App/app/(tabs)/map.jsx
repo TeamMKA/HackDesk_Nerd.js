@@ -17,23 +17,46 @@ const MapScreen = () => {
       try {
         const response = await axios.get('https://qd1v2drq-8000.inc1.devtunnels.ms/api/posts/get-post'); // Replace with your actual API URL
         const data = response.data; // Assuming response.data contains an array of incidents
-              
+
         // Extract latitude and longitude from the response
         const coordinates = data.map(({ latitude, longitude }) => ({
           latitude,
-          longitude
+          longitude,
         }));
 
-        
         setIncidents(data); // Update incidents state with the API response
-        setLoading(false); // Stop loading
       } catch (error) {
         console.error('Error fetching incidents:', error);
+      } finally {
         setLoading(false); // Stop loading even in case of error
       }
     };
 
     fetchIncidents(); // Call the function to fetch data on component mount
+
+    // Create dummy incidents
+    const dummyIncidents = [
+      {
+        latitude: 19.0760,
+        longitude: 72.8777,
+        type: 'Dummy Incident 1',
+        description: 'Description for dummy incident 1',
+      },
+      {
+        latitude: 19.0860,
+        longitude: 72.8877,
+        type: 'Dummy Incident 2',
+        description: 'Description for dummy incident 2',
+      },
+      {
+        latitude: 19.0960,
+        longitude: 72.8977,
+        type: 'Dummy Incident 3',
+        description: 'Description for dummy incident 3',
+      },
+    ];
+
+    setIncidents(prevIncidents => [...prevIncidents, ...dummyIncidents]);
   }, []);
 
   return (
@@ -62,13 +85,12 @@ const MapScreen = () => {
               key={index}
               coordinate={{
                 latitude: incident.latitude,
-                longitude: incident.longitude
+                longitude: incident.longitude,
               }}
               title={incident.type}
               description={incident.description}
             />
-          ))
-        }
+          ))}
       </MapView>
 
       {/* Buttons to toggle incidents visibility */}
@@ -95,7 +117,7 @@ const MapScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:30
+    marginTop: 30,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
