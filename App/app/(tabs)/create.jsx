@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; // Import the Picker
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
@@ -7,6 +7,7 @@ import { Audio } from 'expo-av';
 import Icon1 from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios'
+
 
 const CreateIncident = ({ onSubmit }) => {
   const [incidentType, setIncidentType] = useState('');
@@ -78,6 +79,10 @@ const CreateIncident = ({ onSubmit }) => {
     });
     if (!result.canceled) {
       setPhotoFiles([...photoFiles, ...result.assets.map(asset => asset.uri)]);
+      Alert.alert(
+        "Photo Saved",
+        "Your file has been saved successfully!",
+        [{ text: "OK" }])
     }
   };
 
@@ -88,6 +93,10 @@ const CreateIncident = ({ onSubmit }) => {
     });
     if (!result.canceled) {
       setVideoFiles([...videoFiles, ...result.assets.map(asset => asset.uri)]);
+      Alert.alert(
+        "Video Saved",
+        "Your file has been saved successfully!",
+        [{ text: "OK" }])
     }
   };
 
@@ -107,21 +116,30 @@ const CreateIncident = ({ onSubmit }) => {
   };
 
   const stopAudioRecording = async () => {
-    if (recording) {
-      await recording.stopAndUnloadAsync();
-      setIsRecording(false);
-      const uri = recording.getURI(); // The URI of the recorded audio file
-      console.log('Recording stopped and stored at', uri);
-      setAudioFile(uri); // Save the recorded audio file URI
-    }
+      if (recording) {
+          await recording.stopAndUnloadAsync();
+          setIsRecording(false);
+          const uri = recording.getURI(); // The URI of the recorded audio file
+          console.log('Recording stopped and stored at', uri);
+          setAudioFile(uri); // Save the recorded audio file URI
+  
+          // Show alert after stopping the recording
+          Alert.alert(
+              "Recording Saved",
+              "Your voice recording has been saved successfully!",
+              [{ text: "OK" }]
+          );
+      }
   };
-
+  
 const handleSubmit = async () => {
   const incident = {
-    incidentType,
+    type:incidentType,
     description,
-    area,
-    location: location || null,
+    location:area,
+    // location: location || null,
+    latitude:location.latitude || null,
+    longitude:location.longitude || null,
     photoFiles,
     videoFiles,
     audioFile,
@@ -129,7 +147,7 @@ const handleSubmit = async () => {
   console.log(incident);
 
   try {
-    const response = await axios.post('https://your-backend-api-url.com/incidents', incident);
+    const response = await axios.post('https://qd1v2drq-8000.inc1.devtunnels.ms/api/posts/send-post', incident);
     console.log('Incident submitted successfully:', response.data);
     resetForm();
   } catch (error) {

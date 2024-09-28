@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const PostCard = ({ post }) => {
     const { type, location, description, imageFiles, videoFile, audioFile, comments, like, dislike } = post;
-    
+
     const [sound, setSound] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
     const [newComment, setNewComment] = useState("");
@@ -94,7 +94,7 @@ const PostCard = ({ post }) => {
 
             {/* Like and Dislike Section */}
             <View className="flex-row justify-between items-center mt-4">
-                {/* Like Button */}
+                {/* Like Button (Upward Arrow) */}
                 <TouchableOpacity
                     onPress={() => {
                         if (isLiked) {
@@ -106,11 +106,11 @@ const PostCard = ({ post }) => {
                     }}
                     className="flex-row items-center"
                 >
-                    {isLiked ? <Icon name="thumbs-up" size={24} color="#fb923c" /> : <Icon name="thumbs-o-up" size={24} color="gray" />}
+                    <Icon name="arrow-up" size={24} color={isLiked ? "#fb923c" : "gray"} />
                     <Text className="ml-2">{currentLikes}</Text>
                 </TouchableOpacity>
 
-                {/* Dislike Button */}
+                {/* Dislike Button (Downward Arrow) */}
                 <TouchableOpacity
                     onPress={() => {
                         if (isDisliked) {
@@ -122,7 +122,7 @@ const PostCard = ({ post }) => {
                     }}
                     className="flex-row items-center"
                 >
-                    <Icon name="thumbs-down" size={24} color={isDisliked ? "#fb923c" : "gray"} />
+                    <Icon name="arrow-down" size={24} color={isDisliked ? "blue" : "gray"} />
                     <Text className="ml-2">{currentDislikes}</Text>
                 </TouchableOpacity>
 
