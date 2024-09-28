@@ -25,15 +25,14 @@ SafeRakshak provides users with a platform for reporting and visualizing safety 
     - Incidents are categorized with severity levels.
     - Option to upload photos or videos for better documentation of incidents.
 
-    ![register](/assets/WhatsApp%20Image%202024-09-28%20at%202.36.03%20PM%20(2).jpeg)
-    ![register](/assets/WhatsApp%20Image%202024-09-28%20at%202.36.01%20PM%20(1).jpeg)
-
+    ![register](</assets/WhatsApp%20Image%202024-09-28%20at%202.36.03%20PM%20(2).jpeg>)
+    ![register](</assets/WhatsApp%20Image%202024-09-28%20at%202.36.01%20PM%20(1).jpeg>)
+    ![register](/assets/Screenshot_2024-09-28-14-52-32-65_f73b71075b1de7323614b647fe394240.jpg)
 
 2. **Safety Heatmap**
     - A dynamic heatmap shows the safety rating of different areas based on user reports, historical data, and time of day.
     - A color-coded map visualizes high-risk areas versus safer zones.
-        ![register](/assets/Screenshot_2024-09-28-14-38-44-53_f73b71075b1de7323614b647fe394240%20(1).jpg)
-
+      ![register](</assets/Screenshot_2024-09-28-14-38-44-53_f73b71075b1de7323614b647fe394240%20(1).jpg>)
 
 <!-- 3. **Route Safety Score**
    - Users can check the safety rating of different travel routes (walking, driving, public transit) and receive route recommendations based on safety.
@@ -44,10 +43,8 @@ SafeRakshak provides users with a platform for reporting and visualizing safety 
     - Users can view historical data to see safety trends over time in specific neighborhoods.
     - The app provides insights into the most common types of incidents in different areas (e.g., vehicle theft, pickpocketing, etc.).
 
-        ![register](/assets/WhatsApp%20Image%202024-09-28%20at%202.36.02%20PM%20(2).jpeg)
-            ![register](/assets/WhatsApp%20Image%202024-09-28%20at%202.36.01%20PM%20(2).jpeg)
-
-
+        ![register](</assets/WhatsApp%20Image%202024-09-28%20at%202.36.02%20PM%20(2).jpeg>)
+        ![register](</assets/WhatsApp%20Image%202024-09-28%20at%202.36.01%20PM%20(2).jpeg>)
 
 5. **Avoid Unsafe Zones Feature**
 
@@ -56,26 +53,20 @@ SafeRakshak provides users with a platform for reporting and visualizing safety 
 -   The app provides alternative routes that avoid high crime zones based on recent reports and historical data.
 -   Users can customize their routes by selecting safer paths, even if they might be longer, and receive warnings when entering high-risk zones.
 
-    ![register](/assets/Screenshot_2024-09-28-14-38-50-25_f73b71075b1de7323614b647fe394240%20(1).jpg)
-    ![register](/assets/Screenshot_2024-09-28-14-38-44-53_f73b71075b1de7323614b647fe394240%20(1).jpg)
-        ![register](/assets/Screenshot_2024-09-28-14-55-08-58_f73b71075b1de7323614b647fe394240.jpg)
-        ![register](/assets/Screenshot_2024-09-28-14-52-32-65_f73b71075b1de7323614b647fe394240.jpg)
-            ![register](/assets/Screenshot_2024-09-28-14-53-33-19_f73b71075b1de7323614b647fe394240.jpg)
-
-
-
-
+    ![register](</assets/Screenshot_2024-09-28-14-38-50-25_f73b71075b1de7323614b647fe394240%20(1).jpg>)
+    ![register](/assets/Screenshot_2024-09-28-14-53-33-19_f73b71075b1de7323614b647fe394240.jpg)
 
 5. **Community Verification & Feedback**
+
     - Users can verify incidents posted by others by adding comments or voting on their validity.
     - Option to provide community feedback on the safety of a particular location (e.g., good lighting, high police presence, or crowdedness).
 
-        ![register](/assets/WhatsApp%20Image%202024-09-28%20at%202.36.03%20PM%20(3).jpeg)
+        ![register](</assets/WhatsApp%20Image%202024-09-28%20at%202.36.03%20PM%20(3).jpeg>)
         ![register](/assets/Screenshot_2024-09-28-14-39-02-28_f73b71075b1de7323614b647fe394240.jpg)
 
 6. **Admins can schedule meets for naive people**
-    ![register](/assets/Screenshot_2024-09-28-14-40-50-57_f73b71075b1de7323614b647fe394240%20(1).jpg)
-
+   ![register](</assets/Screenshot_2024-09-28-14-40-50-57_f73b71075b1de7323614b647fe394240%20(1).jpg>)
+   ![register](/assets/Screenshot_2024-09-28-14-55-08-58_f73b71075b1de7323614b647fe394240.jpg)
 
 ## Technologies Used
 
