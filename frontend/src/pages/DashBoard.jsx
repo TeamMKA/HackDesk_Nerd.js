@@ -77,7 +77,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-inherit p-4 w-full ">
+    <div className="min-h-screen bg-inherit p-4 w-[120%] ">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Crowdfeed Dashboard
@@ -170,6 +170,15 @@ export default function Dashboard() {
                           onClick={() => handleDelete(incident._id)}
                         >
                           Delete
+                        </Button>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleIncidentPage()}
+                        >
+                          View
                         </Button>
                       </TableCell>
                     </TableRow>
