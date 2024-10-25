@@ -1,17 +1,28 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import SignInPage from "./pages/SignInPage";
+import DashBoard from "./pages/DashBoard";
+import IncidentDetail from "./pages/IncidentDetail";
+import CreateMeet from "./pages/CreateMeet";
 
 function App() {
   return (
     <Router>
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        
-      </Routes>
-      <Footer/>
+      <div className="main">
+        <div className="gradient" />
+      </div>
+
+      <main className="app">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signIn" element={<SignInPage />} />
+          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/incident" element={<IncidentDetail />} />
+          <Route path="/create-Meet" element={<CreateMeet />} />
+        </Routes>
+      </main>
     </Router>
   );
 }

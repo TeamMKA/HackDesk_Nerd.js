@@ -19,7 +19,7 @@ const Home = () => {
     { title: "Educational Resources", img: icons.find_nearby, link: "/educational-resources" },
     { title: "S. O. S.", img: icons.emergency_contacts, link: "/emergency-contacts" },
     { title: "Join Webinars", img: icons.webinar, link: "/webinar" },
-
+    { title: "Chat Bot", img: icons.chat_bot, link: "/chat-bot" },
   ];
 
   const [postData, setPostData] = useState([]);
