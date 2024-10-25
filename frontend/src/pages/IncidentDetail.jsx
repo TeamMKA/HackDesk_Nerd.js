@@ -11,11 +11,11 @@ const IncidentDetail = () => {
     const fetchDataAsync = async () => {
       try {
         const response = await axios.get(
-          "https://6nddmv2g-8000.inc1.devtunnels.ms/api/posts/get-post"
+          "http://localhost:8000/api/posts/get-post"
         );
-        console.log(response.data);
-        setIncident(response.data[0]);
-        setVideo(response.data[0].videoFile);
+        console.log(response.data.data[0]);
+        setIncident(response.data.data[0]);
+        setVideo(response.data.data[0].videoFile);
       } catch (error) {
         console.error(error);
       }
@@ -55,7 +55,7 @@ const IncidentDetail = () => {
 
         <div className="mb-4 space-y-2 w-full flex justify-center items-center">
           <video autoPlay muted preload="false">
-            <source src={video} />
+            <source src={video || ""} />
           </video>
         </div>
 
