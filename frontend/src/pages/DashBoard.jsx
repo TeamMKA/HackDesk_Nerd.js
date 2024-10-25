@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Search, LayoutGrid, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 import {
   Table,
@@ -59,8 +60,8 @@ export default function Dashboard() {
     fetchDataAsync();
   }, []);
 
-  const handleIncidentPage = () => {
-    router("/incident");
+  const handleIncidentPage = (incident) => {
+    router("/incident", { state: { incident } });
   };
 
   const handleDelete = async (id) => {
@@ -103,6 +104,7 @@ export default function Dashboard() {
           </div>
 
           {/* Incidents Section */}
+          <Card className="flex-1 p-5 glassmorphism">
           <main className="flex-1 overflow-y-auto text-2xl">
             <div className="container mx-auto py-6">
               <h1 className="text-2xl font-bold mb-2">Incident Reports</h1>
@@ -176,7 +178,7 @@ export default function Dashboard() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleIncidentPage()}
+                          onClick={() => handleIncidentPage(incident)}
                         >
                           View
                         </Button>
@@ -187,6 +189,7 @@ export default function Dashboard() {
               </Table>
             </div>
           </main>
+          </Card>
         </div>
       </div>
     </div>
