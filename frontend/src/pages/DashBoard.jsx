@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { Search, LayoutGrid, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
 import {
     Table,
     TableBody,
@@ -24,6 +23,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { HfInference } from "@huggingface/inference"
+
+const client = new HfInference("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") // Replace with your actual Hugging Face API key
 
 // Mock data for the chart
 const chartData = [
@@ -39,8 +40,7 @@ const chartData = [
 export default function Dashboard() {
     const router = useNavigate()
     const [data, setData] = useState([])
-    const [summaryData, setSummaryData] = useState({}) // New state for summaries
-    const client = new HfInference("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") // Initialize client
+    const [summaryData, setSummaryData] = useState({}) // State to hold summaries and severity levels
 
     useEffect(() => {
         const fetchDataAsync = async () => {
@@ -48,11 +48,11 @@ export default function Dashboard() {
                 const response = await axios.get(
                     "http://localhost:8000/api/posts/get-post"
                 )
+                console.log(response.data.data)
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data)
                     response.data.data.forEach((incident) => {
-                        // Call LLaMA for each incident
-                        fetchSummaryAndSeverity(incident)
+                        fetchSummaryAndSeverity(incident) // Fetch summary for each incident
                     })
                 } else {
                     console.error("API response is not an array")
@@ -65,40 +65,6 @@ export default function Dashboard() {
         fetchDataAsync()
     }, [])
 
-    const fetchSummaryAndSeverity = async (incident) => {
-        const messages = [
-            {
-                role: "user",
-                content: `Please summarize the following incident and provide a severity level:\n\nIncident Description: ${
-                    incident.description
-                }\n\nComments: ${incident.comments.join(", ")}`,
-            },
-        ]
-
-        try {
-            const stream = client.chatCompletionStream({
-                model: "meta-llama/Llama-3.2-1B-Instruct",
-                messages,
-                max_tokens: 150,
-            })
-
-            let summary = ""
-            for await (const chunk of stream) {
-                if (chunk.choices && chunk.choices.length > 0) {
-                    summary += chunk.choices[0].delta.content
-                }
-            }
-
-            // Set summary and severity in state
-            setSummaryData((prev) => ({
-                ...prev,
-                [incident._id]: summary, // Store summary keyed by incident ID
-            }))
-        } catch (error) {
-            console.error("Error fetching summary and severity:", error)
-        }
-    }
-
     const handleIncidentPage = () => {
         router("/incident")
     }
@@ -110,11 +76,63 @@ export default function Dashboard() {
             )
             console.log(response.data)
             setData(data.filter((incident) => incident._id !== id))
-            const newSummaryData = { ...summaryData }
-            delete newSummaryData[id] // Remove summary of deleted incident
-            setSummaryData(newSummaryData)
         } catch (error) {
             console.error(error)
+        }
+        console.log("Delete incident with id", id)
+    }
+
+    const fetchSummaryAndSeverity = async (incident) => {
+        const prompt = `
+        You are an expert analyst. Please summarize the following incident and its comments, 
+        and provide a severity level (Low, Medium, High) based on the content.
+
+        Incident Title: ${incident.title}
+        Description: ${incident.description}
+        Comments: ${incident.comments.join(" ")}
+    `
+
+        try {
+            const stream = client.chatCompletionStream({
+                model: "meta-llama/Llama-3.2-1B-Instruct",
+                messages: [{ role: "user", content: prompt }],
+                max_tokens: 100,
+            })
+
+            let summary = ""
+            for await (const chunk of stream) {
+                if (chunk.choices && chunk.choices.length > 0) {
+                    summary += chunk.choices[0].delta.content
+                }
+            }
+
+            const formattedSummary = formatSummary(summary)
+            setSummaryData((prev) => ({
+                ...prev,
+                [incident._id]: formattedSummary, // Store summary keyed by incident ID
+            }))
+        } catch (error) {
+            console.error("Error fetching summary and severity:", error)
+        }
+    }
+
+    const formatSummary = (summary) => {
+        const lines = summary.split("\n").filter((line) => line.trim() !== "")
+
+        let severity = "Unknown"
+        let summaryContent = ""
+
+        lines.forEach((line) => {
+            if (line.toLowerCase().includes("severity level:")) {
+                severity = line.replace("Severity Level:", "").trim()
+            } else {
+                summaryContent += line + " "
+            }
+        })
+
+        return {
+            content: summaryContent.trim(),
+            severity,
         }
     }
 
@@ -183,8 +201,9 @@ export default function Dashboard() {
                                         <TableHead>Location</TableHead>
                                         <TableHead>Description</TableHead>
                                         <TableHead>Comments</TableHead>
-                                        <TableHead>Severity</TableHead>{" "}
-                                        {/* Added Severity Column */}
+                                        <TableHead>
+                                            Summary & Severity
+                                        </TableHead>
                                         <TableHead>Likes</TableHead>
                                         <TableHead>Dislikes</TableHead>
                                         <TableHead>Date</TableHead>
@@ -220,10 +239,29 @@ export default function Dashboard() {
                                                 </ul>
                                             </TableCell>
                                             <TableCell>
-                                                {summaryData[incident._id]
-                                                    ? summaryData[incident._id]
-                                                    : "Loading..."}{" "}
-                                                {/* Display summary */}
+                                                {summaryData[incident._id] ? (
+                                                    <>
+                                                        <strong>
+                                                            Summary:
+                                                        </strong>{" "}
+                                                        {
+                                                            summaryData[
+                                                                incident._id
+                                                            ].content
+                                                        }
+                                                        <br />
+                                                        <strong>
+                                                            Severity:
+                                                        </strong>{" "}
+                                                        {
+                                                            summaryData[
+                                                                incident._id
+                                                            ].severity
+                                                        }
+                                                    </>
+                                                ) : (
+                                                    "Loading..."
+                                                )}
                                             </TableCell>
                                             <TableCell>
                                                 {incident.like}
