@@ -12,9 +12,9 @@ const Home = () => {
   const {user} = useGlobalContext()
 
   const cardData = [
-    { title: "Safest Route", img: icons.safest_route, link: "/safest-route" },
+    { title: "Safest Route", img: icons.safest_route, link: "/heatmap" },
     { title: "Book A Ride", img: icons.book_a_ride, link: "/book-a-ride" },
-    { title: "Report Incident", img: icons.report_incident, link: "/report-incident" },
+    { title: "Report Incident", img: icons.report_incident, link: "/create" },
     { title: "Safety Alerts", img: icons.safety_alerts, link: "/safety-alerts" },
     { title: "Educational Resources", img: icons.find_nearby, link: "/educational-resources" },
     { title: "S. O. S.", img: icons.emergency_contacts, link: "/emergency-contacts" },

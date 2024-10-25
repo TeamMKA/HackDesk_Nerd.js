@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 
 
 const staticPolygons = [
-    { center: [19.224552, 72.832728], radius: 400 },  // Example polygon 1
+    { center: [19.1977341, 72.8271095], radius: 400 },  // Example polygon 1
     { center: [19.210552, 72.842728], radius: 300 },  // Example polygon 2
     { center: [19.244552, 72.852728], radius: 500 },  // Example circle 3
     { center: [19.238552, 72.862728], radius: 200 },  // Example circle 4
