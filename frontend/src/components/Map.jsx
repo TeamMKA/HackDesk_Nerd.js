@@ -54,7 +54,7 @@ const Map = () => {
           {position && (
             <>
               <Marker position={position}>
-                <Popup>Your current location</Popup>
+                <Popup> Current Location is {position} </Popup>
               </Marker>
               <SetViewOnClick coords={position} />
             </>

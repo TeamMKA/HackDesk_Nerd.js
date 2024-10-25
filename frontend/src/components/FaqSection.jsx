@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,11 +80,17 @@ const FaqSection = () => {
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
           FAQ
         </h2>
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <FAQItem key={index} question={faq.question} answer={faq.answer} />
-          ))}
-        </div>
+
+        {faqs.map((faq, index) => (
+          <div key={index} className="space-y-4 text-5xl">
+            <Accordion type="multiple" collapsible className="text-2xl">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>{faq.question}</AccordionTrigger>
+                <AccordionContent>{faq.answer}</AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        ))}
       </div>
     </section>
   );
