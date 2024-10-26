@@ -11,7 +11,7 @@ const Home = () => {
             <section className=" mt-5 ">
                 <div>
                     <h1 className="head_text text-center">
-                        SafeHer:
+                        NavNari:
                         <br />
                         <span className="orange_gradient">
                             Empowering Women Through Community
@@ -20,7 +20,7 @@ const Home = () => {
                 </div>
 
                 <div className="my-10">
-                    <p className="text-center font-satoshi  text-gray-800 text-base">
+                    <p className="text-center font-satoshi text-2xl text-gray-800">
                         Join our crowdsourced platform to enhance women's
                         safety. Together, we can create safer spaces and support
                         each other.

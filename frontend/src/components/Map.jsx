@@ -73,7 +73,7 @@ const Map = () => {
                     About US
                 </h1>
                 <p className="text-base font-satoshi text-wrap overflow-hidden text-gray-800 leading-relaxed mt-4 mb-6 px-4  tracking-wider whitespace-pre-wrap text-md ">
-                    At SafeHer, we are committed to empowering women by creating
+                    At NavNari, we are committed to empowering women by creating
                     safer, more supportive communities. Founded on the belief
                     that safety is a right, not a privilege, our platform brings
                     women together to share resources, experiences, and support.
@@ -85,7 +85,7 @@ const Map = () => {
                     shaping a safer world. By uniting our collective knowledge
                     and experiences, we aim to foster an environment of mutual
                     trust, safety, and empowerment. Together, we can make a
-                    difference. Join SafeHer and be part of a movement that
+                    difference. Join NavNari and be part of a movement that
                     prioritizes women's safety, well-being, and empowerment.
                 </p>
             </div>

@@ -12,10 +12,10 @@ const Navbar = () => {
     <nav className="w-full h-[7rem] my-15 flex items-center flex-between">
       <div className="flex items-center justify-center pt-7">
         <img
-          className="object-cover"
-          height={100}
-          width={160}
-          src="/logo.png"
+          className="object-cover mb-5"
+          height={150}
+          width={150}
+          src="/logog.png"
           alt=""
         />
       </div>
