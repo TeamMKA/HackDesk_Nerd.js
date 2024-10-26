@@ -1,20 +1,20 @@
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { AlertTriangle, BarChart2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Search, LayoutGrid, Filter } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+} from "recharts"
+import { AlertTriangle, BarChart2 } from "lucide-react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import { Search, LayoutGrid, Filter } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 
 import {
     Table,
@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table"
 import { HfInference } from "@huggingface/inference"
 
-const client = new HfInference("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") // Replace with your actual Hugging Face API key
+const client = new HfInference(import.meta.env.VITE_HUGGING_FACE) // Replace with your actual Hugging Face API key
 
 // Mock data for the chart
 const chartData = [
@@ -54,7 +54,7 @@ export default function Dashboard() {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data)
                     response.data.data.forEach((incident) => {
-                        fetchSummaryAndSeverity(incident) // Fetch summary for each incident
+                        // fetchSummaryAndSeverity(incident) // Fetch summary for each incident
                     })
                 } else {
                     console.error("API response is not an array")
@@ -67,9 +67,9 @@ export default function Dashboard() {
         fetchDataAsync()
     }, [])
 
-  const handleIncidentPage = (incident) => {
-    router("/incident", { state: { incident } });
-  };
+    const handleIncidentPage = (incident) => {
+        router("/incident", { state: { incident } })
+    }
 
     const handleDelete = async (id) => {
         try {
@@ -164,95 +164,126 @@ export default function Dashboard() {
                         </ResponsiveContainer>
                     </div>
 
-          {/* Incidents Section */}
-          <Card className="flex-1 p-5 glassmorphism">
-          <main className="flex-1 overflow-y-auto text-2xl">
-            <div className="container mx-auto py-6">
-              <h1 className="text-2xl font-bold mb-2">Incident Reports</h1>
-              <p className="text-muted-foreground mb-6">
-                Below you can find all the reported incidents with their
-                respective details.
-              </p>
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center space-x-2">
-                  <Button variant="outline">All Incidents</Button>
-                  <Button>Recent</Button>
-                </div>
-                <div className="flex space-x-2">
-                  <Button variant="outline" size="icon">
-                    <Search className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="icon">
-                    <LayoutGrid className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="icon">
-                    <Filter className="h-4 w-4" />
-                  </Button>
-                  <Button>Export</Button>
-                </div>
-              </div>
+                    {/* Incidents Section */}
+                    <Card className="flex-1 p-5 glassmorphism">
+                        <main className="flex-1 overflow-y-auto text-2xl">
+                            <div className="container mx-auto py-6">
+                                <h1 className="text-2xl font-bold mb-2">
+                                    Incident Reports
+                                </h1>
+                                <p className="text-muted-foreground mb-6">
+                                    Below you can find all the reported
+                                    incidents with their respective details.
+                                </p>
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="flex items-center space-x-2">
+                                        <Button variant="outline">
+                                            All Incidents
+                                        </Button>
+                                        <Button>Recent</Button>
+                                    </div>
+                                    <div className="flex space-x-2">
+                                        <Button variant="outline" size="icon">
+                                            <Search className="h-4 w-4" />
+                                        </Button>
+                                        <Button variant="outline" size="icon">
+                                            <LayoutGrid className="h-4 w-4" />
+                                        </Button>
+                                        <Button variant="outline" size="icon">
+                                            <Filter className="h-4 w-4" />
+                                        </Button>
+                                        <Button>Export</Button>
+                                    </div>
+                                </div>
 
-              {/* Incident Table */}
-              <Table className="text-lg  " >
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Location</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Comments</TableHead>
-                    <TableHead>Likes</TableHead>
-                    <TableHead>Dislikes</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data.map((incident, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{incident.type}</TableCell>
-                      <TableCell>{incident.location}</TableCell>
-                      <TableCell>{incident.description}</TableCell>
-                      <TableCell>
-                        <ul>
-                          {incident.comments.map((comment, idx) => (
-                            <li key={idx} className="text-sm italic">
-                              {comment}
-                            </li>
-                          ))}
-                        </ul>
-                      </TableCell>
-                      <TableCell>{incident.like}</TableCell>
-                      <TableCell>{incident.dislike}</TableCell>
-                      <TableCell>
-                        {new Date(incident.createdAt).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(incident._id)}
-                        >
-                          Delete
-                        </Button>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleIncidentPage(incident)}
-                        >
-                          View
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                                {/* Incident Table */}
+                                <Table className="text-lg  ">
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Type</TableHead>
+                                            <TableHead>Location</TableHead>
+                                            <TableHead>Description</TableHead>
+                                            <TableHead>Comments</TableHead>
+                                            <TableHead>Likes</TableHead>
+                                            <TableHead>Dislikes</TableHead>
+                                            <TableHead>Date</TableHead>
+                                            <TableHead className="text-right">
+                                                Actions
+                                            </TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {data.map((incident, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>
+                                                    {incident.type}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {incident.location}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {incident.description}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <ul>
+                                                        {incident.comments.map(
+                                                            (comment, idx) => (
+                                                                <li
+                                                                    key={idx}
+                                                                    className="text-sm italic"
+                                                                >
+                                                                    {comment}
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                </TableCell>
+                                                <TableCell>
+                                                    {incident.like}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {incident.dislike}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {new Date(
+                                                        incident.createdAt
+                                                    ).toLocaleDateString()}
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                incident._id
+                                                            )
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            handleIncidentPage(
+                                                                incident
+                                                            )
+                                                        }
+                                                    >
+                                                        View
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </main>
+                    </Card>
+                </div>
             </div>
-          </main>
-          </Card>
         </div>
-      </div>
-    </div>
-  );
+    )
 }
