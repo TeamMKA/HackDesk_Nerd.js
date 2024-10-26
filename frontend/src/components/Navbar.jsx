@@ -42,6 +42,11 @@ const Navbar = () => {
               FAQ&apos;s
             </a>
           </li>
+          <li>
+            <a href="/llama" className="text-lg font-semibold text-gray-800">
+              Chatbot
+            </a>
+          </li>
           {
             isLoggedIn && (
               <li>
